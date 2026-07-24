@@ -151,13 +151,13 @@
                                 android:padding="4dp"
                                 android:singleLine="true" />
 
-                            <Button
+                            <ImageButton
                                 android:id="@+id/select_folder_button"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="4dp"
-                                android:text="📁"
-                                android:textSize="18sp"
+                                android:src="@drawable/ic_folder_open"
+                                android:background="?attr/selectableItemBackgroundBorderless"
                                 android:contentDescription="选择文件夹" />
                         </LinearLayout>
 
