@@ -9,8 +9,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
@@ -177,21 +179,19 @@ public class MainActivity extends AppCompatActivity
     private void requestPermissionsOnFirstLaunch() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean firstLaunch = prefs.getBoolean("first_launch", true);
-        if (firstLaunch) {
-            prefs.edit().putBoolean("first_launch", false).apply();
-            addLog("首次启动，正在请求系统权限...");
-        }
+        if (!firstLaunch) return;
+        prefs.edit().putBoolean("first_launch", false).apply();
+        addLog("首次启动，正在请求系统权限...");
         for (String perm : getRequiredPermissions()) {
-            if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= 30 && Manifest.permission.MANAGE_EXTERNAL_STORAGE.equals(perm)) {
-                    // 所有文件访问权限需要跳转到系统设置页面
+            if (Build.VERSION.SDK_INT >= 30 && Manifest.permission.MANAGE_EXTERNAL_STORAGE.equals(perm)) {
+                if (!Environment.isExternalStorageManager()) {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     startActivity(intent);
                     addLog("🔓 请授予「所有文件访问权限」");
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{perm}, PERMISSION_REQUEST_CODE);
                 }
+            } else if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{perm}, PERMISSION_REQUEST_CODE);
             }
         }
     }
@@ -308,10 +308,32 @@ public class MainActivity extends AppCompatActivity
             Uri uri = data.getData();
             if (uri != null) {
                 getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                workspaceEdit.setText(uri.toString());
-                addLog("📂 SAF 工作区: " + uri.toString());
+                String path = safUriToPath(uri);
+                workspaceEdit.setText(path);
+                addLog("📂 SAF 工作区: " + path);
             }
         }
+    }
+
+    private String safUriToPath(Uri uri) {
+        // content://com.android.externalstorage.documents/tree/primary%3A%E8%84%9A%E6%9C%AC
+        // → /storage/emulated/0/脚本/
+        String docId;
+        try {
+            docId = DocumentsContract.getTreeDocumentId(uri);
+        } catch (Exception e) {
+            return uri.toString();
+        }
+        // primary:脚本 → /storage/emulated/0/脚本/
+        if (docId.startsWith("primary:")) {
+            String relativePath = docId.substring("primary:".length());
+            return "/storage/emulated/0/" + (relativePath.isEmpty() ? "" : relativePath + "/");
+        }
+        if (docId.startsWith("home:")) {
+            String relativePath = docId.substring("home:".length());
+            return "/storage/emulated/0/" + (relativePath.isEmpty() ? "" : relativePath + "/");
+        }
+        return uri.toString();
     }
     
     private void copyTelegram() {
