@@ -330,8 +330,8 @@ public class MainActivity extends AppCompatActivity
     
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
-                .setTitle("关于 MCP_Run")
-                .setMessage("MCP_Run v1.1\n\nAndroid MCP 协议服务器\nStreamable HTTP 传输协议\n127.0.0.1 本地回环地址\n\n"
+                .setTitle("关于 MCP Tool")
+                .setMessage("MCP Tool v1.1\n\nAndroid MCP 协议服务器\nStreamable HTTP 传输协议\n127.0.0.1 本地回环地址\n\n"
                         + "📁 文件操作 · ⚙️ 系统管理\n📱 设备信息 · 📦 应用管理\n"
                         + "🐍 脚本执行 · 💬 通讯交互\n🌐 网络请求 · 🧰 实用工具\n\n"
                         + "共 " + toolRegistry.getToolCount() + " 个工具\n\n"

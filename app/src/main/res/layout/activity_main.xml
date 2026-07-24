@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
-            app:title="MCP_Run"
+            app:title="MCP Tool"
             app:titleTextColor="@android:color/white"
             app:navigationIcon="@android:drawable/ic_menu_sort_by_size" />
 
@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MCP_Run"
+                    android:text="MCP Tool"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="?attr/colorOnSurface"
@@ -311,7 +311,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MCP_Run v1.1 · Android MCP Server"
+                    android:text="MCP Tool v1.1 · Android MCP Server"
                     android:textSize="12sp"
                     android:textColor="?attr/colorOnSurfaceVariant"
                     android:gravity="center"

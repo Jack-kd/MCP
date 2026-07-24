@@ -66,7 +66,7 @@ public class ScreenshotTool implements MCPTool {
     @Override
     public JSONObject execute(Context context, JSONObject args) throws Exception {
         if (rootView == null) {
-            throw new Exception("根视图未设置，请先打开MCP_Run应用界面");
+            throw new Exception("根视图未设置，请先打开MCP Tool应用界面");
         }
         
         // 生成默认路径

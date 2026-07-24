@@ -133,7 +133,7 @@ public class SysTool implements MCPTool {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 r.put("success", true);
-                r.put("message", "已打开电池优化设置页面，请手动将MCP_Run设为「无限制」");
+                r.put("message", "已打开电池优化设置页面，请手动将MCP Tool设为「无限制」");
             } catch (Exception e) {
                 r.put("success", false);
                 r.put("message", "打开设置失败: " + e.getMessage());

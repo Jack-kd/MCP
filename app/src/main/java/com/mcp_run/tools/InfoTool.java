@@ -73,7 +73,7 @@ public class InfoTool implements MCPTool {
     private JSONObject health() throws Exception {
         JSONObject r = new JSONObject();
         r.put("status", "healthy");
-        r.put("server", "MCP_Run");
+        r.put("server", "MCP Tool");
         r.put("version", "1.1.0");
         r.put("uptime", "running");
         return r;
@@ -81,7 +81,7 @@ public class InfoTool implements MCPTool {
 
     private JSONObject serviceInfo() throws Exception {
         JSONObject r = new JSONObject();
-        r.put("name", "MCP_Run Android Server");
+        r.put("name", "MCP Tool Android Server");
         r.put("version", "1.1.0");
         r.put("protocol", "Streamable HTTP (MCP 2025-03-26)");
         r.put("bind_address", "127.0.0.1");
@@ -137,7 +137,7 @@ public class InfoTool implements MCPTool {
         StringBuilder sb = new StringBuilder();
         switch (type) {
             case "tool":
-                sb.append("MCP_Run 工具帮助总览\n\n");
+                sb.append("MCP Tool 工具帮助总览\n\n");
                 sb.append("📁 文件操作: pwd, cd, set_root, exists, stat, ls, list_all, tree, find, grep, mkdir, touch, empty, copy, rename, delete, edit\n");
                 sb.append("📄 文件内容: read, head, tail, read_lines, batch_read, read_base64, write, append, write_base64, compare_files\n");
                 sb.append("⚙️ 系统管理: shell, system_control, shizuku, shizuku_shell, battery, battery_fix\n");
