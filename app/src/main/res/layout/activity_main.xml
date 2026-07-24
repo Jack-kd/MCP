@@ -185,34 +185,15 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- 控制按钮 -->
-                <LinearLayout
+                <Button
+                    android:id="@+id/toggle_server_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginBottom="12dp">
-
-                    <Button
-                        android:id="@+id/start_button"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_weight="1"
-                        android:text="▶ 启动服务器"
-                        android:textSize="15sp"
-                        android:layout_marginEnd="6dp"
-                        android:backgroundTint="#2196F3" />
-
-                    <Button
-                        android:id="@+id/stop_button"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_weight="1"
-                        android:text="⏹ 停止服务器"
-                        android:textSize="15sp"
-                        android:enabled="false"
-                        android:layout_marginStart="6dp"
-                        android:backgroundTint="#757575" />
-                </LinearLayout>
+                    android:layout_height="52dp"
+                    android:text="▶ 启动服务器"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="#2196F3" />
 
                 <!-- 使用说明 -->
                 <com.google.android.material.card.MaterialCardView

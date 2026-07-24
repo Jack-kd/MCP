@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
     private MaterialToolbar toolbar;
     private TextView statusText, ipText, logText, bottomContact;
     private EditText portEdit, workspaceEdit;
-    private Button startButton, stopButton;
+    private Button toggleButton;
     private View statusIndicator;
     private ScrollView logScrollView;
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -131,13 +131,17 @@ public class MainActivity extends AppCompatActivity
         logText = findViewById(R.id.log_text);
         portEdit = findViewById(R.id.port_edit);
         workspaceEdit = findViewById(R.id.workspace_edit);
-        startButton = findViewById(R.id.start_button);
-        stopButton = findViewById(R.id.stop_button);
+        toggleButton = findViewById(R.id.toggle_server_button);
         statusIndicator = findViewById(R.id.status_indicator);
         logScrollView = findViewById(R.id.log_scroll_view);
         bottomContact = findViewById(R.id.bottom_contact);
-        startButton.setOnClickListener(v -> startServer());
-        stopButton.setOnClickListener(v -> stopServer());
+        toggleButton.setOnClickListener(v -> {
+            if (isRunning) {
+                stopServer();
+            } else {
+                startServer();
+            }
+        });
         findViewById(R.id.copy_ip_button).setOnClickListener(v -> copyAddress());
         findViewById(R.id.clear_log_button).setOnClickListener(v -> logText.setText(""));
         bottomContact.setOnClickListener(v -> copyTelegram());
@@ -265,13 +269,15 @@ public class MainActivity extends AppCompatActivity
                 statusText.setText("● 运行中");
                 statusText.setTextColor(getColor(android.R.color.holo_green_dark));
                 statusIndicator.setBackgroundColor(getColor(android.R.color.holo_green_dark));
-                startButton.setEnabled(false); stopButton.setEnabled(true);
+                toggleButton.setText("⏹ 停止服务器");
+                toggleButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFF44336));
                 portEdit.setEnabled(false); workspaceEdit.setEnabled(false);
             } else {
                 statusText.setText("○ 已停止");
                 statusText.setTextColor(getColor(android.R.color.holo_red_dark));
                 statusIndicator.setBackgroundColor(getColor(android.R.color.darker_gray));
-                startButton.setEnabled(true); stopButton.setEnabled(false);
+                toggleButton.setText("▶ 启动服务器");
+                toggleButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF2196F3));
                 portEdit.setEnabled(true); workspaceEdit.setEnabled(true);
             }
         });
