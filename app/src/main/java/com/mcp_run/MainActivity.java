@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity
                     Manifest.permission.FOREGROUND_SERVICE,
                     Manifest.permission.POST_NOTIFICATIONS,
                     Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
             };
         } else {
             return new String[]{
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.FOREGROUND_SERVICE,
                     Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
             };
         }
     }

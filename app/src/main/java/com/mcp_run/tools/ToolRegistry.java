@@ -24,6 +24,13 @@ public class ToolRegistry {
     public static final String CAT_COMMUNICATION = "通讯交互";
     public static final String CAT_NETWORK = "网络请求";
     public static final String CAT_UTILITY = "实用工具";
+    public static final String CAT_DATABASE = "数据库";
+    public static final String CAT_COMPRESS = "压缩解压";
+    public static final String CAT_CRYPTO = "加解密";
+    public static final String CAT_PROCESS = "进程管理";
+    public static final String CAT_SENSOR = "传感器";
+    public static final String CAT_QRCODE = "二维码";
+    public static final String CAT_CRON = "定时任务";
 
     public ToolRegistry(Context context) {
         this.session = new FileSession();
@@ -117,6 +124,43 @@ public class ToolRegistry {
         register(new InfoTool("file_help"), CAT_UTILITY);
         register(new InfoTool("system_help"), CAT_UTILITY);
         register(new BatchOpsTool(), CAT_UTILITY);
+
+        // ====== 数据库操作 ======
+        register(new DatabaseTool("query"), CAT_DATABASE);
+        register(new DatabaseTool("execute"), CAT_DATABASE);
+        register(new DatabaseTool("list_tables"), CAT_DATABASE);
+        register(new DatabaseTool("schema"), CAT_DATABASE);
+
+        // ====== 压缩解压 ======
+        register(new ZipTool("create"), CAT_COMPRESS);
+        register(new ZipTool("extract"), CAT_COMPRESS);
+        register(new ZipTool("list"), CAT_COMPRESS);
+
+        // ====== 加解密 ======
+        register(new CryptoTool("hash"), CAT_CRYPTO);
+        register(new CryptoTool("encrypt_aes"), CAT_CRYPTO);
+        register(new CryptoTool("decrypt_aes"), CAT_CRYPTO);
+        register(new CryptoTool("random_bytes"), CAT_CRYPTO);
+
+        // ====== 进程管理 ======
+        register(new ProcessTool("ps"), CAT_PROCESS);
+        register(new ProcessTool("pidof"), CAT_PROCESS);
+        register(new ProcessTool("kill"), CAT_PROCESS);
+        register(new ProcessTool("top"), CAT_PROCESS);
+
+        // ====== 传感器/定位 ======
+        register(new SensorTool("get_location"), CAT_SENSOR);
+        register(new SensorTool("sensor_list"), CAT_SENSOR);
+        register(new SensorTool("sensor_read"), CAT_SENSOR);
+
+        // ====== 二维码 ======
+        register(new QRCodeTool("generate"), CAT_QRCODE);
+        register(new QRCodeTool("scan"), CAT_QRCODE);
+
+        // ====== 定时任务 ======
+        register(new CronTool("add"), CAT_CRON);
+        register(new CronTool("list"), CAT_CRON);
+        register(new CronTool("remove"), CAT_CRON);
     }
 
     private void register(MCPTool tool, String category) {
@@ -137,6 +181,9 @@ public class ToolRegistry {
         cats.add(CAT_FILE); cats.add(CAT_SYSTEM); cats.add(CAT_DEVICE);
         cats.add(CAT_APP); cats.add(CAT_SCRIPT); cats.add(CAT_COMMUNICATION);
         cats.add(CAT_NETWORK); cats.add(CAT_UTILITY);
+        cats.add(CAT_DATABASE); cats.add(CAT_COMPRESS); cats.add(CAT_CRYPTO);
+        cats.add(CAT_PROCESS); cats.add(CAT_SENSOR); cats.add(CAT_QRCODE);
+        cats.add(CAT_CRON);
         return cats;
     }
 
@@ -158,6 +205,13 @@ public class ToolRegistry {
             case CAT_COMMUNICATION: return "💬";
             case CAT_NETWORK: return "🌐";
             case CAT_UTILITY: return "🧰";
+            case CAT_DATABASE: return "🗄️";
+            case CAT_COMPRESS: return "📦";
+            case CAT_CRYPTO: return "🔐";
+            case CAT_PROCESS: return "⚡";
+            case CAT_SENSOR: return "📡";
+            case CAT_QRCODE: return "📱";
+            case CAT_CRON: return "⏰";
             default: return "🔧";
         }
     }
@@ -227,6 +281,36 @@ public class ToolRegistry {
             case "file_help": return "📁";
             case "system_help": return "⚙️";
             case "batch_ops": return "📦";
+            // 数据库
+            case "db_query": return "🔍";
+            case "db_execute": return "⚡";
+            case "db_list_tables": return "📋";
+            case "db_schema": return "📐";
+            // 压缩解压
+            case "zip_create": return "📦";
+            case "zip_extract": return "📂";
+            case "zip_list": return "📋";
+            // 加解密
+            case "hash": return "🔢";
+            case "encrypt_aes": return "🔒";
+            case "decrypt_aes": return "🔓";
+            case "random_bytes": return "🎲";
+            // 进程管理
+            case "ps": return "📋";
+            case "pidof": return "🔍";
+            case "kill": return "💀";
+            case "top": return "📊";
+            // 传感器
+            case "get_location": return "📍";
+            case "sensor_list": return "📡";
+            case "sensor_read": return "📈";
+            // 二维码
+            case "qr_generate": return "🔳";
+            case "qr_scan": return "📷";
+            // 定时任务
+            case "cron_add": return "➕";
+            case "cron_list": return "📋";
+            case "cron_remove": return "🗑️";
             default: return "🔧";
         }
     }
