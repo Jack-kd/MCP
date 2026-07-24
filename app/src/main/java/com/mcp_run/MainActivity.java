@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int REQUEST_CODE_SAF = 101;
     private static final String PREFS_NAME = "mcp_config";
     private static final String KEY_PORT = "server_port";
     private static final String KEY_WORKSPACE = "workspace_path";
@@ -55,11 +59,9 @@ public class MainActivity extends AppCompatActivity
     private ToolRegistry toolRegistry;
     
     private static String[] getRequiredPermissions() {
-        if (Build.VERSION.SDK_INT >= 33) {
+        if (Build.VERSION.SDK_INT >= 30) {
             return new String[]{
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                     Manifest.permission.FOREGROUND_SERVICE,
                     Manifest.permission.POST_NOTIFICATIONS,
                     Manifest.permission.INTERNET,
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity
                 startServer();
             }
         });
+        findViewById(R.id.select_folder_button).setOnClickListener(v -> openDocumentTree());
         findViewById(R.id.copy_ip_button).setOnClickListener(v -> copyAddress());
         findViewById(R.id.clear_log_button).setOnClickListener(v -> logText.setText(""));
         bottomContact.setOnClickListener(v -> copyTelegram());
@@ -177,14 +180,16 @@ public class MainActivity extends AppCompatActivity
         if (firstLaunch) {
             prefs.edit().putBoolean("first_launch", false).apply();
             addLog("首次启动，正在请求系统权限...");
-            for (String perm : getRequiredPermissions()) {
-                if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{perm}, PERMISSION_REQUEST_CODE);
-                }
-            }
-        } else {
-            for (String perm : getRequiredPermissions()) {
-                if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+        }
+        for (String perm : getRequiredPermissions()) {
+            if (ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= 30 && Manifest.permission.MANAGE_EXTERNAL_STORAGE.equals(perm)) {
+                    // 所有文件访问权限需要跳转到系统设置页面
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    intent.setData(Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
+                    addLog("🔓 请授予「所有文件访问权限」");
+                } else {
                     ActivityCompat.requestPermissions(this, new String[]{perm}, PERMISSION_REQUEST_CODE);
                 }
             }
@@ -288,6 +293,25 @@ public class MainActivity extends AppCompatActivity
         ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(android.content.ClipData.newPlainText("MCP地址", text));
         Toast.makeText(this, "已复制: " + text, Toast.LENGTH_SHORT).show();
         addLog("📋 已复制端点: " + text);
+    }
+
+    private void openDocumentTree() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, REQUEST_CODE_SAF);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SAF && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                workspaceEdit.setText(uri.toString());
+                addLog("📂 SAF 工作区: " + uri.toString());
+            }
+        }
     }
     
     private void copyTelegram() {
