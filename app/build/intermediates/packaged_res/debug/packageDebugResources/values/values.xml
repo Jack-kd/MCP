@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#FF9800</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="log_background">#1A1A1A</color>
+    <color name="log_text">#00FF00</color>
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="status_gray">#9E9E9E</color>
+    <color name="status_green">#4CAF50</color>
+    <color name="status_red">#F44336</color>
+    <string name="app_description">Android MCP 协议服务器</string>
+    <string name="app_name">MCP_Run</string>
+    <string name="notification_channel_desc">MCP服务器的运行状态通知</string>
+    <string name="notification_channel_name">MCP服务器</string>
+    <string name="notification_running">MCP服务器运行中</string>
+    <string name="notification_stopped">MCP服务器已停止</string>
+    <string name="permission_notification_rationale">需要通知权限以显示服务器状态</string>
+    <string name="permission_storage_rationale">需要存储权限以读写文件</string>
+    <style name="AppTheme" parent="Base.AppTheme"/>
+    <style name="Base.AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+    </style>
+</resources>

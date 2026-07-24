@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="log_background">#1A1A1A</color>
+    <color name="log_text">#00FF00</color>
+    
+    <color name="status_green">#4CAF50</color>
+    <color name="status_red">#F44336</color>
+    <color name="status_gray">#9E9E9E</color>
+    
+    <color name="card_background">#FFFFFF</color>
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="accent">#FF9800</color>
+</resources>
