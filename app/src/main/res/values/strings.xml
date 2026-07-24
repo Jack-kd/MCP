@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MCP_Run</string>
+    <string name="app_name">MCP Tool</string>
     <string name="app_description">Android MCP 协议服务器</string>
     
     <!-- 通知 -->

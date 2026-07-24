@@ -199,7 +199,7 @@ public class MCPHttpServer {
         if (body == null || body.trim().isEmpty()) {
             JSONObject info = new JSONObject();
             try {
-                info.put("server", "MCP_Run Android Server");
+                info.put("server", "MCP Tool Android Server");
                 info.put("version", "1.1.0");
                 info.put("protocol", "Streamable HTTP");
                 info.put("mcp_version", MCP_VERSION);
@@ -282,7 +282,7 @@ public class MCPHttpServer {
         result.put("protocolVersion", MCP_VERSION);
         result.put("capabilities", capabilities);
         result.put("serverInfo", new JSONObject()
-                .put("name", "MCP_Run")
+                .put("name", "MCP Tool")
                 .put("version", "1.1.0"));
         
         return createSuccessResult(id, result);
@@ -411,7 +411,7 @@ public class MCPHttpServer {
     private void handleStatus(OutputStream out) throws IOException {
         JSONObject status = new JSONObject();
         try {
-            status.put("server", "MCP_Run Android Server");
+            status.put("server", "MCP Tool Android Server");
             status.put("version", "1.1.0");
             status.put("protocol", "Streamable HTTP (MCP " + MCP_VERSION + ")");
             status.put("bind_address", LOCALHOST + ":" + port);
@@ -435,14 +435,14 @@ public class MCPHttpServer {
      */
     private void handleListTools(OutputStream out) throws IOException {
         StringBuilder html = new StringBuilder();
-        html.append("<html><head><title>MCP_Run Tools</title>")
+        html.append("<html><head><title>MCP Tool Tools</title>")
             .append("<style>body{font-family:sans-serif;margin:20px;background:#1a1a2e;color:#eee;}")
             .append("h1{color:#00d2ff;}").append(".tool{border:1px solid #333;padding:12px;margin:8px 0;border-radius:8px;background:#16213e;}")
             .append(".tool h3{margin:0 0 5px 0;color:#00d2ff;}")
             .append(".desc{color:#aaa;font-size:14px;}")
             .append(".cat{color:#e94560;font-size:12px;}")
             .append("</style></head><body>")
-            .append("<h1>🔧 MCP_Run Tools</h1>")
+            .append("<h1>🔧 MCP Tool Tools</h1>")
             .append("<p>Streamable HTTP | 127.0.0.1:").append(port)
             .append(" | ").append(toolRegistry.getToolCount()).append(" tools</p>");
         

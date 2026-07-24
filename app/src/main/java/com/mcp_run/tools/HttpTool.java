@@ -96,7 +96,7 @@ public class HttpTool implements MCPTool {
         conn.setRequestMethod(method);
         conn.setConnectTimeout(connectTimeout > 0 ? connectTimeout : 15000);
         conn.setReadTimeout(readTimeout > 0 ? readTimeout : 15000);
-        conn.setRequestProperty("User-Agent", "MCP_Run/1.1 Android");
+        conn.setRequestProperty("User-Agent", "MCP_Tool/1.1 Android");
         conn.setInstanceFollowRedirects(true);
 
         if (body != null && !body.isEmpty()) {

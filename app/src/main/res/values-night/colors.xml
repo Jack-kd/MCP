@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="log_background">#0D1117</color>
-    <color name="log_text">#00FF88</color>
-    
-    <color name="status_green">#66BB6A</color>
-    <color name="status_red">#EF5350</color>
-    <color name="status_gray">#757575</color>
-    
-    <color name="card_background">#1E1E2E</color>
-    <color name="primary">#64B5F6</color>
-    <color name="primary_dark">#42A5F5</color>
-    <color name="accent">#FFB74D</color>
+    <color name="edit_text_color">#FFFFFF</color>
+    <color name="edit_text_hint_color">#AAAAAA</color>
 </resources>

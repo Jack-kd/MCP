@@ -20,7 +20,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
-            app:title="MCP_Run"
+            app:title="MCP Tool"
             app:titleTextColor="@android:color/white"
             app:navigationIcon="@android:drawable/ic_menu_sort_by_size" />
 
@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MCP_Run"
+                    android:text="MCP Tool"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="?attr/colorOnSurface"
@@ -117,6 +117,8 @@
                                 android:text="1145"
                                 android:inputType="number"
                                 android:textSize="15sp"
+                                android:textColor="@color/edit_text_color"
+                                android:textColorHint="@color/edit_text_hint_color"
                                 android:gravity="center"
                                 android:background="@drawable/edit_text_bg"
                                 android:padding="4dp" />
@@ -146,10 +148,21 @@
                                 android:text="/storage/emulated/0/"
                                 android:inputType="text"
                                 android:textSize="13sp"
+                                android:textColor="@color/edit_text_color"
+                                android:textColorHint="@color/edit_text_hint_color"
                                 android:gravity="center_vertical"
                                 android:background="@drawable/edit_text_bg"
                                 android:padding="4dp"
                                 android:singleLine="true" />
+
+                            <ImageButton
+                                android:id="@+id/select_folder_button"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginStart="4dp"
+                                android:src="@drawable/ic_folder_open"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:contentDescription="选择文件夹" />
                         </LinearLayout>
 
                         <!-- IP信息 -->
@@ -185,34 +198,15 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- 控制按钮 -->
-                <LinearLayout
+                <Button
+                    android:id="@+id/toggle_server_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginBottom="12dp">
-
-                    <Button
-                        android:id="@+id/start_button"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_weight="1"
-                        android:text="▶ 启动服务器"
-                        android:textSize="15sp"
-                        android:layout_marginEnd="6dp"
-                        android:backgroundTint="#2196F3" />
-
-                    <Button
-                        android:id="@+id/stop_button"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_weight="1"
-                        android:text="⏹ 停止服务器"
-                        android:textSize="15sp"
-                        android:enabled="false"
-                        android:layout_marginStart="6dp"
-                        android:backgroundTint="#757575" />
-                </LinearLayout>
+                    android:layout_height="52dp"
+                    android:text="▶ 启动服务器"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="#2196F3" />
 
                 <!-- 使用说明 -->
                 <com.google.android.material.card.MaterialCardView
@@ -303,25 +297,10 @@
                     </ScrollView>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- 底部联系方式 -->
-                <TextView
-                    android:id="@+id/bottom_contact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Telegram: @PAOLU_GGG"
-                    android:textSize="14sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:gravity="center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="?attr/selectableItemBackground" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MCP_Run v1.1 · Android MCP Server"
+                    android:text="MCP Tool v1.1 · Android MCP Server"
                     android:textSize="12sp"
                     android:textColor="?attr/colorOnSurfaceVariant"
                     android:gravity="center"

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -17,13 +18,18 @@ import java.io.IOException;
 /**
  * MCP前台服务 - 保持MCP HTTP服务器在后台运行
  * 支持通过Intent Extra传递自定义端口
+ * 服务停止后显示"启动"快捷通知
  */
 public class MCPService extends Service {
     private static final String TAG = "MCPService";
     private static final int NOTIFICATION_ID = 1001;
+    private static final int STOPPED_NOTIFICATION_ID = 1002;
     private static final String CHANNEL_ID = "mcp_server_channel";
+    private static final String PREFS_NAME = "mcp_config";
+    private static final String KEY_PORT = "server_port";
     public static final String EXTRA_PORT = "extra_port";
     public static final String ACTION_STOP = "STOP";
+    public static final String ACTION_START_FROM_NOTIFICATION = "START_FROM_NOTIFICATION";
     
     private MCPHttpServer server;
     private static MCPService instance;
@@ -55,8 +61,16 @@ public class MCPService extends Service {
             return START_NOT_STICKY;
         }
         
-        // 读取自定义端口
-        int port = intent != null ? intent.getIntExtra(EXTRA_PORT, 8910) : 8910;
+        // 取消"已停止"通知
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(STOPPED_NOTIFICATION_ID);
+        
+        // 读取端口：优先使用Intent传入的端口，否则从SharedPreferences读取
+        int port = intent != null ? intent.getIntExtra(EXTRA_PORT, -1) : -1;
+        if (port <= 0) {
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            port = prefs.getInt(KEY_PORT, 8910);
+        }
         currentPort = port;
         
         // 启动前台通知
@@ -121,7 +135,7 @@ public class MCPService extends Service {
                 this, 1, stopIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         
-        String title = isRunning ? "🟢 MCP服务器运行中" : "🔴 MCP服务器已停止";
+        String title = isRunning ? "MCP Tool 运行中" : "MCP Tool 启动中";
         
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(title)
@@ -133,6 +147,34 @@ public class MCPService extends Service {
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, "停止服务", stopPendingIntent);
         
         return builder.build();
+    }
+    
+    private void showStoppedNotification() {
+        Intent startIntent = new Intent(this, MCPService.class);
+        startIntent.setAction(ACTION_START_FROM_NOTIFICATION);
+        PendingIntent startPendingIntent = PendingIntent.getService(
+                this, 2, startIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        
+        Intent openIntent = new Intent(this, MainActivity.class);
+        openIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent openPendingIntent = PendingIntent.getActivity(
+                this, 3, openIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("MCP Tool 已停止")
+                .setContentText("点击启动服务器")
+                .setSmallIcon(android.R.drawable.ic_menu_compass)
+                .setContentIntent(openPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setOngoing(false)
+                .setAutoCancel(false)
+                .addAction(android.R.drawable.ic_media_play, "启动服务器", startPendingIntent)
+                .build();
+        
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(STOPPED_NOTIFICATION_ID, notification);
     }
     
     private void createNotificationChannel() {
@@ -155,6 +197,8 @@ public class MCPService extends Service {
             server.stop();
         }
         instance = null;
+        // 显示"已停止"通知，附带启动按钮
+        showStoppedNotification();
         super.onDestroy();
     }
     
