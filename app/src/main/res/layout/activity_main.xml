@@ -156,7 +156,8 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="4dp"
-                                android:background="@android:drawable/ic_menu_folder"
+                                android:text="📁"
+                                android:textSize="18sp"
                                 android:contentDescription="选择文件夹" />
                         </LinearLayout>
 
