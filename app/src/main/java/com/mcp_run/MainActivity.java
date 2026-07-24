@@ -46,12 +46,11 @@ public class MainActivity extends AppCompatActivity
     private static final String PREFS_NAME = "mcp_config";
     private static final String KEY_PORT = "server_port";
     private static final String KEY_WORKSPACE = "workspace_path";
-    private static final String TELEGRAM = "@PAOLU_GGG";
     
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private MaterialToolbar toolbar;
-    private TextView statusText, ipText, logText, bottomContact;
+    private TextView statusText, ipText, logText;
     private EditText portEdit, workspaceEdit;
     private Button toggleButton;
     private View statusIndicator;
@@ -145,7 +144,6 @@ public class MainActivity extends AppCompatActivity
         toggleButton = findViewById(R.id.toggle_server_button);
         statusIndicator = findViewById(R.id.status_indicator);
         logScrollView = findViewById(R.id.log_scroll_view);
-        bottomContact = findViewById(R.id.bottom_contact);
         toggleButton.setOnClickListener(v -> {
             if (isRunning) {
                 stopServer();
@@ -156,7 +154,6 @@ public class MainActivity extends AppCompatActivity
         findViewById(R.id.select_folder_button).setOnClickListener(v -> openDocumentTree());
         findViewById(R.id.copy_ip_button).setOnClickListener(v -> copyAddress());
         findViewById(R.id.clear_log_button).setOnClickListener(v -> logText.setText(""));
-        bottomContact.setOnClickListener(v -> copyTelegram());
         ipText.setText("127.0.0.1 (仅本机)");
     }
     
@@ -343,12 +340,6 @@ public class MainActivity extends AppCompatActivity
         return uri.toString();
     }
     
-    private void copyTelegram() {
-        ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(android.content.ClipData.newPlainText("Telegram", TELEGRAM));
-        Toast.makeText(this, "已复制 " + TELEGRAM, Toast.LENGTH_SHORT).show();
-        addLog("📋 已复制联系方式: " + TELEGRAM);
-    }
-    
     private void addLog(String message) {
         runOnUiThread(() -> {
             String ts = new java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date());
@@ -363,8 +354,7 @@ public class MainActivity extends AppCompatActivity
                 .setMessage("MCP Tool v1.1\n\nAndroid MCP 协议服务器\nStreamable HTTP 传输协议\n127.0.0.1 本地回环地址\n\n"
                         + "📁 文件操作 · ⚙️ 系统管理\n📱 设备信息 · 📦 应用管理\n"
                         + "🐍 脚本执行 · 💬 通讯交互\n🌐 网络请求 · 🧰 实用工具\n\n"
-                        + "共 " + toolRegistry.getToolCount() + " 个工具\n\n"
-                        + "Telegram: " + TELEGRAM + "\n(点击底部可复制)")
+                        + "共 " + toolRegistry.getToolCount() + " 个工具")
                 .setPositiveButton("确定", null)
                 .show();
     }

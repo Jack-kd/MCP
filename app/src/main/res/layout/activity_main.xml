@@ -293,21 +293,6 @@
                     </ScrollView>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- 底部联系方式 -->
-                <TextView
-                    android:id="@+id/bottom_contact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Telegram: @PAOLU_GGG"
-                    android:textSize="14sp"
-                    android:textColor="?attr/colorPrimary"
-                    android:gravity="center"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="?attr/selectableItemBackground" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
