@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 深色模式：在 super.onCreate 之前应用
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int nightMode = prefs.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        AppCompatDelegate.setDefaultNightMode(nightMode);
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolRegistry = new ToolRegistry(this);
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, ToolListActivity.class));
             return true;
         }
+        if (id == R.id.nav_dark_mode) { toggleDarkMode(); return true; }
         if (id == R.id.nav_about) { showAboutDialog(); return true; }
         if (id == R.id.nav_exit) { finishAffinity(); return true; }
         return true;
@@ -359,6 +366,33 @@ public class MainActivity extends AppCompatActivity
                         + "共 " + toolRegistry.getToolCount() + " 个工具\n\n"
                         + "Telegram: " + TELEGRAM + "\n(点击底部可复制)")
                 .setPositiveButton("确定", null)
+                .show();
+    }
+
+    private void toggleDarkMode() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int currentMode = prefs.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+        String[] modeLabels = {"跟随系统", "始终浅色", "始终深色"};
+        int[] modeValues = {
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+                AppCompatDelegate.MODE_NIGHT_NO,
+                AppCompatDelegate.MODE_NIGHT_YES
+        };
+
+        int currentIndex = 0;
+        for (int i = 0; i < modeValues.length; i++) {
+            if (modeValues[i] == currentMode) { currentIndex = i; break; }
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("深色模式")
+                .setSingleChoiceItems(modeLabels, currentIndex, (dialog, which) -> {
+                    prefs.edit().putInt("night_mode", modeValues[which]).apply();
+                    AppCompatDelegate.setDefaultNightMode(modeValues[which]);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("取消", null)
                 .show();
     }
     

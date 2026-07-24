@@ -10,6 +10,11 @@
         android:id="@+id/nav_tool_list"
         android:icon="@android:drawable/ic_menu_gallery"
         android:title="📋 工具列表" />
+
+    <item
+        android:id="@+id/nav_dark_mode"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="🌓 深色模式" />
     
     <item android:title="操作">
         <menu>
