@@ -5,39 +5,36 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- 齿轮主体圆 -->
+    <!-- 连接线 -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:fillColor="#00000000"
+        android:pathData="M54,45 L54,34.5 M61.8,58.6 L71.3,64.2 M46.2,58.6 L36.7,64.2" />
+
+    <!-- 外环（描边） -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:fillColor="#00000000"
+        android:pathData="M54,40 A14,14 0 1,1 54,68 A14,14 0 1,1 54,40" />
+
+    <!-- 中心节点（实心圆） -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M54,32 C66.15,32 76,41.85 76,54 C76,66.15 66.15,76 54,76 C41.85,76 32,66.15 32,54 C32,41.85 41.85,32 54,32 Z" />
+        android:pathData="M54,45 A9,9 0 1,1 54,63 A9,9 0 1,1 54,45" />
 
-    <!-- 中心孔（用背景色填充模拟镂空） -->
+    <!-- 卫星节点 -->
     <path
-        android:fillColor="#0D47A1"
-        android:pathData="M54,46 C58.42,46 62,49.58 62,54 C62,58.42 58.42,62 54,62 C49.58,62 46,58.42 46,54 C46,49.58 49.58,46 54,46 Z" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,23.5 A5.5,5.5 0 1,1 54,34.5 A5.5,5.5 0 1,1 54,23.5 Z" />
 
-    <!-- 8 个齿，扁平结构各自独立旋转 -->
-    <group android:pivotX="54" android:pivotY="54">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="45">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="90">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="135">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="180">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="225">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="270">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
-    <group android:pivotX="54" android:pivotY="54" android:rotation="315">
-        <path android:fillColor="#FFFFFF" android:pathData="M51.5,26 L56.5,26 L55.5,32 L52.5,32 Z" />
-    </group>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M76,61.5 A5.5,5.5 0 1,1 76,72.5 A5.5,5.5 0 1,1 76,61.5 Z" />
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M32,61.5 A5.5,5.5 0 1,1 32,72.5 A5.5,5.5 0 1,1 32,61.5 Z" />
+
 </vector>
